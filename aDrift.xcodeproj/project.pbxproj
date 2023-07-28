@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F0E311872A741F5A00064F4C /* aDriftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311862A741F5A00064F4C /* aDriftApp.swift */; };
-		F0E311892A741F5A00064F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311882A741F5A00064F4C /* ContentView.swift */; };
-		F0E3118B2A741F5B00064F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E3118A2A741F5B00064F4C /* Assets.xcassets */; };
+		F031748D2A741FF000E87F49 /* Village.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031748C2A741FF000E87F49 /* Village.swift */; };
+		F03174972A74200700E87F49 /* Crafting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031748E2A74200700E87F49 /* Crafting.swift */; };
+		F03174982A74200700E87F49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031748F2A74200700E87F49 /* ContentView.swift */; };
+		F03174992A74200700E87F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F03174902A74200700E87F49 /* Assets.xcassets */; };
+		F031749B2A74200700E87F49 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03174942A74200700E87F49 /* DataController.swift */; };
+		F031749C2A74200700E87F49 /* aDriftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03174952A74200700E87F49 /* aDriftApp.swift */; };
+		F031749D2A74200700E87F49 /* Supplies.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03174962A74200700E87F49 /* Supplies.swift */; };
+		F03174A02A7420BF00E87F49 /* GameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F031749E2A7420BF00E87F49 /* GameData.xcdatamodeld */; };
 		F0E3118E2A741F5B00064F4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E3118D2A741F5B00064F4C /* Preview Assets.xcassets */; };
 		F0E311982A741F5B00064F4C /* aDriftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311972A741F5B00064F4C /* aDriftTests.swift */; };
 		F0E311A22A741F5B00064F4C /* aDriftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311A12A741F5B00064F4C /* aDriftUITests.swift */; };
@@ -34,10 +39,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F031748C2A741FF000E87F49 /* Village.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Village.swift; sourceTree = "<group>"; };
+		F031748E2A74200700E87F49 /* Crafting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crafting.swift; sourceTree = "<group>"; };
+		F031748F2A74200700E87F49 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F03174902A74200700E87F49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F03174942A74200700E87F49 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		F03174952A74200700E87F49 /* aDriftApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = aDriftApp.swift; sourceTree = "<group>"; };
+		F03174962A74200700E87F49 /* Supplies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Supplies.swift; sourceTree = "<group>"; };
+		F031749F2A7420BF00E87F49 /* GameData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GameData.xcdatamodel; sourceTree = "<group>"; };
 		F0E311832A741F5A00064F4C /* aDrift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aDrift.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F0E311862A741F5A00064F4C /* aDriftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aDriftApp.swift; sourceTree = "<group>"; };
-		F0E311882A741F5A00064F4C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F0E3118A2A741F5B00064F4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0E3118D2A741F5B00064F4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F0E311932A741F5B00064F4C /* aDriftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = aDriftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E311972A741F5B00064F4C /* aDriftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aDriftTests.swift; sourceTree = "<group>"; };
@@ -94,9 +104,14 @@
 		F0E311852A741F5A00064F4C /* aDrift */ = {
 			isa = PBXGroup;
 			children = (
-				F0E311862A741F5A00064F4C /* aDriftApp.swift */,
-				F0E311882A741F5A00064F4C /* ContentView.swift */,
-				F0E3118A2A741F5B00064F4C /* Assets.xcassets */,
+				F03174902A74200700E87F49 /* Assets.xcassets */,
+				F031748F2A74200700E87F49 /* ContentView.swift */,
+				F031748E2A74200700E87F49 /* Crafting.swift */,
+				F03174942A74200700E87F49 /* DataController.swift */,
+				F03174952A74200700E87F49 /* aDriftApp.swift */,
+				F03174962A74200700E87F49 /* Supplies.swift */,
+				F031749E2A7420BF00E87F49 /* GameData.xcdatamodeld */,
+				F031748C2A741FF000E87F49 /* Village.swift */,
 				F0E3118C2A741F5B00064F4C /* Preview Content */,
 			);
 			path = aDrift;
@@ -195,6 +210,7 @@
 				TargetAttributes = {
 					F0E311822A741F5A00064F4C = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 					};
 					F0E311922A741F5B00064F4C = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -231,8 +247,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F03174992A74200700E87F49 /* Assets.xcassets in Resources */,
 				F0E3118E2A741F5B00064F4C /* Preview Assets.xcassets in Resources */,
-				F0E3118B2A741F5B00064F4C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +273,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0E311892A741F5A00064F4C /* ContentView.swift in Sources */,
-				F0E311872A741F5A00064F4C /* aDriftApp.swift in Sources */,
+				F031749B2A74200700E87F49 /* DataController.swift in Sources */,
+				F031748D2A741FF000E87F49 /* Village.swift in Sources */,
+				F03174A02A7420BF00E87F49 /* GameData.xcdatamodeld in Sources */,
+				F031749D2A74200700E87F49 /* Supplies.swift in Sources */,
+				F031749C2A74200700E87F49 /* aDriftApp.swift in Sources */,
+				F03174972A74200700E87F49 /* Crafting.swift in Sources */,
+				F03174982A74200700E87F49 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"aDrift/Preview Content\"";
@@ -433,6 +455,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.aDrift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -443,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"aDrift/Preview Content\"";
@@ -583,6 +607,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F031749E2A7420BF00E87F49 /* GameData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F031749F2A7420BF00E87F49 /* GameData.xcdatamodel */,
+			);
+			currentVersion = F031749F2A7420BF00E87F49 /* GameData.xcdatamodel */;
+			name = GameData.xcdatamodeld;
+			path = ../../../../.Trash/GameData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F0E3117B2A741F5A00064F4C /* Project object */;
 }

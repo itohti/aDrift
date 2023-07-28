@@ -10,9 +10,10 @@ import SwiftUI
 
 struct Crafting: View{
     
-    
     var body: some View{
-        Text("Welcome to the crafting interface")
-            .navigationTitle("Crafting")
+        VStack{
+            Text("Welcome to the crafting interface")
+                .navigationTitle("Crafting")
+        }
     }
 }

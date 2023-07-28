@@ -21,6 +21,7 @@ struct Supplies: View{
                 Text(key + ": \(playerInventory[key] ?? -1)")
             }
         }
+        .navigationTitle("inventory")
         .onAppear(perform: fetchGameData)
     }
 }

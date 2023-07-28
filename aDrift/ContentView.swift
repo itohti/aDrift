@@ -26,7 +26,8 @@ struct NavigationButton: View{
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     // when fully testing set playerExists to false and uncomment onAppear() located down at the end of Zstack
-    @State private var playerExists = true
+    let userDefaults = UserDefaults.standard
+    @State private var playerExists = false
     @State private var stateOfHome = "a cramped place"
     @State private var lighting = 0.0
     @State private var isLighting = false
@@ -35,15 +36,17 @@ struct ContentView: View {
     @State private var background = [Color(red: 0.0, green: 0.0, blue: 0.35), Color.blue]
     @State private var foreground = Color.white
     @State private var logs = [String]()
-    let userDefaults = UserDefaults.standard
     @State private var playerInventory = [String: Int]()
     @State private var resetAlert = false
     @State private var housing = 0
+    @State private var population = 0
+    var totalPopulation: Int {
+        return housing * 4
+    }
     
     func checkPlayer(){
         // this function checks if a player exists already
         let fetchRequest : NSFetchRequest<Player> = Player.fetchRequest()
-        fetchRequest.fetchLimit = 1
         do {
             let players = try moc.fetch(fetchRequest)
             // checks to see the a player exists already
@@ -57,6 +60,7 @@ struct ContentView: View {
                 playerInventory = userDefaults.object(forKey: "playerInventory") as? [String: Int] ?? [:]
                 logs = userDefaults.object(forKey: "logs") as? [String] ?? []
                 housing = userDefaults.object(forKey: "housing") as? Int ?? 0
+                population = userDefaults.object(forKey: "population") as? Int ?? 0
             }
         } catch{
             // something went wrong with fetching GameData
@@ -77,12 +81,10 @@ struct ContentView: View {
         newPlayer.health = 20
         newPlayer.water = 5
         newPlayer.food = 0
-        
         // create playerInventory
         
         playerInventory["knife"] = 1
         playerInventory["tinderbox"] = 1
-        playerInventory["wood"] = 100
         do{
             // saves the newPlayer object into GameData
             try moc.save()
@@ -128,6 +130,7 @@ struct ContentView: View {
             userDefaults.set(playerInventory, forKey: "playerInventory")
             userDefaults.set(logs, forKey: "logs")
             userDefaults.set(housing, forKey: "housing")
+            userDefaults.set(population, forKey: "population")
         } catch{
             print("There was an error in saving data")
         }
@@ -141,14 +144,37 @@ struct ContentView: View {
             let players = try moc.fetch(fetchRequest)
             let player = players[0]
             moc.delete(player)
+            try moc.save()
             userDefaults.removeObject(forKey: "playerInventory")
             userDefaults.removeObject(forKey: "logs")
             userDefaults.removeObject(forKey: "housing")
+            userDefaults.removeObject(forKey: "population")
             logs = [String]()
             playerExists = false
             isLit = false
         } catch{
             print("Could not delete Player file")
+        }
+    }
+    
+    func fillHouse(){
+        var group = Int.random(in: 1..<4)
+        // Each housing can house 4 people.
+        // first check to see if there is free space. To see get the number of housing multiply it by 4. if current pop is less than that number there is free space.
+        if (population < totalPopulation){
+            let chance = Int.random(in: 0..<10)
+            // 1/5 chance to fill a house with 1-4 people
+            if (chance == 1){
+                if (population + group > totalPopulation){
+                    group = totalPopulation - population
+                    logs.append(group > 1 ? "\(group) survivors move in" : "\(group) person moved in")
+                    population += group
+                }
+                else{
+                    logs.append(group > 1 ? "\(group) survivors move in" : "\(group) person moved in")
+                    population += group
+                }
+            }
         }
     }
     
@@ -202,8 +228,8 @@ struct ContentView: View {
                                     NavigationButton(imageName: "Village")
                                     
                                 })
-                                NavigationLink(destination: Crafting(), label:{
-                                    NavigationButton(imageName: "Crafting")
+                                NavigationLink(destination: Stats(context: moc), label:{
+                                    NavigationButton(imageName: "Stats")
                                     
                                 })
                             }
@@ -217,14 +243,13 @@ struct ContentView: View {
                         .border(.black)
                         ZStack{
                             List{
-                                ForEach(logs, id:\.self) {text in
+                                ForEach(logs.reversed(), id:\.self) {text in
                                     Text(text)
                                 }
                             }
                             .scrollContentBackground(.hidden)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .padding()
-                            Spacer()
                         }
                         .background(.ultraThinMaterial)
                     }
@@ -239,6 +264,9 @@ struct ContentView: View {
                         Text("All your progress will be lost.")
                     }
                 }
+                .onReceive(timer){ _ in
+                    fillHouse()
+                }
             }
             else{
                 // new game
@@ -249,7 +277,7 @@ struct ContentView: View {
                     .clipShape(Capsule())
             }
         }
-        //.onAppear(perform: checkPlayer)
+        .onAppear(perform: checkPlayer)
     }
 }
 

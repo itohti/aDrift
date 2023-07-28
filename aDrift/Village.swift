@@ -10,15 +10,23 @@ import SwiftUI
 struct Village: View {
     let userDefaults = UserDefaults.standard
     @State private var housing = 0
+    @State private var population = 0
     @State private var playerInventory = [String:Int]()
     @State private var showHousingAlert = false
+    @State private var isChopping = false
+    @State private var chopping = 0.0
+    @State private var logs = [String]()
     
     func fetchGameData(){
+        // fetches game data
+        logs = userDefaults.object(forKey: "logs") as? [String] ?? []
+        population = userDefaults.object(forKey: "population") as? Int ?? 0
         housing = userDefaults.object(forKey: "housing") as? Int ?? 0
         playerInventory = userDefaults.object(forKey: "playerInventory") as? [String: Int] ?? [:]
     }
     
     func addHousing(){
+        // adds housing if player has enough resources
         if (playerInventory["wood"] ?? 0 >= 100){
             playerInventory["wood"] = (playerInventory["wood"] ?? 0) - 100
             housing += 1
@@ -29,12 +37,26 @@ struct Village: View {
         }
     }
     
+    func chopWood(){
+        // adds 10 wood to player inventory
+        chopping += 1
+        if (chopping == 6){
+            logs.append("+10 wood")
+            playerInventory["wood"] = (playerInventory["wood"] ?? 0) + 10
+            chopping = 0
+            isChopping = false
+            save()
+        }
+    }
+    
     func save(){
         userDefaults.set(playerInventory, forKey: "playerInventory")
         userDefaults.set(housing, forKey: "housing")
+        userDefaults.set(logs, forKey: "logs")
     }
     
     var body: some View {
+        let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         VStack{
             HStack{
                 Text("Housing: \(housing)")
@@ -46,9 +68,21 @@ struct Village: View {
                 .border(.black)
             }
             .padding()
+            VStack(alignment: .leading){
+                Button("Chop Wood"){
+                    isChopping = true
+                }
+                ProgressView("", value: chopping, total: 6)
+                    .onReceive(timer){ _ in
+                        if (isChopping){
+                            chopWood()
+                        }
+                    }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .offset(y:-300)
-        .navigationTitle("Village")
+        .navigationTitle("village")
         .alert("Not Enough Resources", isPresented: $showHousingAlert) {
             Button("Dismiss", role: .cancel) { }
         } message: {

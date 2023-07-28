@@ -26,7 +26,7 @@ struct NavigationButton: View{
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     // when fully testing set playerExists to false and uncomment onAppear() located down at the end of Zstack
-    @State private var playerExists = false
+    @State private var playerExists = true
     @State private var stateOfHome = "a cramped place"
     @State private var lighting = 0.0
     @State private var isLighting = false
@@ -38,6 +38,7 @@ struct ContentView: View {
     let userDefaults = UserDefaults.standard
     @State private var playerInventory = [String: Int]()
     @State private var resetAlert = false
+    @State private var housing = 0
     
     func checkPlayer(){
         // this function checks if a player exists already
@@ -55,6 +56,7 @@ struct ContentView: View {
                 playerExists = true
                 playerInventory = userDefaults.object(forKey: "playerInventory") as? [String: Int] ?? [:]
                 logs = userDefaults.object(forKey: "logs") as? [String] ?? []
+                housing = userDefaults.object(forKey: "housing") as? Int ?? 0
             }
         } catch{
             // something went wrong with fetching GameData
@@ -80,7 +82,7 @@ struct ContentView: View {
         
         playerInventory["knife"] = 1
         playerInventory["tinderbox"] = 1
-        
+        playerInventory["wood"] = 100
         do{
             // saves the newPlayer object into GameData
             try moc.save()
@@ -95,7 +97,7 @@ struct ContentView: View {
     func lightFire(){
         // lighting the fire
         lighting += 1
-        if (lighting == 10){
+        if (lighting == 5){
             isLighting.toggle()
             isLit = true
             changeTheme()
@@ -125,6 +127,7 @@ struct ContentView: View {
             try moc.save()
             userDefaults.set(playerInventory, forKey: "playerInventory")
             userDefaults.set(logs, forKey: "logs")
+            userDefaults.set(housing, forKey: "housing")
         } catch{
             print("There was an error in saving data")
         }
@@ -140,6 +143,7 @@ struct ContentView: View {
             moc.delete(player)
             userDefaults.removeObject(forKey: "playerInventory")
             userDefaults.removeObject(forKey: "logs")
+            userDefaults.removeObject(forKey: "housing")
             logs = [String]()
             playerExists = false
             isLit = false
@@ -178,7 +182,7 @@ struct ContentView: View {
                         }
                         // This is the progressview for lighting a fire
                         if (isLighting){
-                            ProgressView("", value: lighting, total: 10)
+                            ProgressView("", value: lighting, total: 5)
                                 .onReceive(timer) { _ in
                                     lightFire()
                                 }
@@ -189,7 +193,7 @@ struct ContentView: View {
                                 NavigationLink(destination: Crafting(), label:{
                                     NavigationButton(imageName: "Crafting")
                                 })
-                                NavigationLink(destination: Supplies(playerInventory: playerInventory), label:{
+                                NavigationLink(destination: Supplies(), label:{
                                     NavigationButton(imageName: "Inventory")
                                 })
                             }
@@ -245,7 +249,7 @@ struct ContentView: View {
                     .clipShape(Capsule())
             }
         }
-        .onAppear(perform: checkPlayer)
+        //.onAppear(perform: checkPlayer)
     }
 }
 

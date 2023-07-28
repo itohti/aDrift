@@ -8,13 +8,20 @@ import Foundation
 import SwiftUI
 
 struct Supplies: View{
-    var playerInventory : [String: Int]
+    let userDefaults = UserDefaults.standard
+    @State private var playerInventory = [String: Int]()
+    
+    func fetchGameData(){
+        playerInventory = userDefaults.object(forKey: "playerInventory") as? [String: Int] ?? [:]
+    }
+    
     var body: some View{
         Form{
             ForEach(Array(playerInventory.keys), id:\.self){ key in
                 Text(key + ": \(playerInventory[key] ?? -1)")
             }
         }
+        .onAppear(perform: fetchGameData)
     }
 }
 

@@ -89,12 +89,6 @@ class GameManager : ObservableObject{
         }
     }
     
-    func printData(){
-        print(housing)
-        print(population)
-        print(totalPopulation)
-    }
-    
     func fillHouse(){
         var group = Int.random(in: 1..<4)
         // Each housing can house 4 people.

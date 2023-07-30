@@ -69,8 +69,5 @@ struct Village: View {
         } message: {
             Text("You currently have: \(gameManager.playerInventory["wood"] ?? 0) wood but it costs \(gameManager.costOfHouse) wood")
         }
-        .onReceive(timer) { _ in
-            gameManager.printData()
-        }
     }
 }

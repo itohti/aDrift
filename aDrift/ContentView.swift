@@ -178,7 +178,7 @@ struct ContentView: View {
                                 NavigationLink(destination: Crafting(), label:{
                                     NavigationButton(imageName: "Crafting")
                                 })
-                                NavigationLink(destination: Supplies(), label:{
+                                NavigationLink(destination: Supplies(gameManager: gameManager), label:{
                                     NavigationButton(imageName: "Inventory")
                                 })
                             }

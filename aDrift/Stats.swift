@@ -10,6 +10,7 @@ import CoreData
 
 struct Stats: View {
     var moc : NSManagedObjectContext
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var player = Player()
     @State private var health = 0
     @State private var food = 0
@@ -40,5 +41,8 @@ struct Stats: View {
             Text("water: \(water)")
         }
         .onAppear(perform: fetchGameData)
+        .onReceive(timer) { _ in
+            fetchGameData()
+        }
     }
 }

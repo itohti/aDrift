@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Supplies: View{
     let userDefaults = UserDefaults.standard
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var playerInventory = [String: Int]()
     
     func fetchGameData(){
@@ -23,6 +24,9 @@ struct Supplies: View{
         }
         .navigationTitle("inventory")
         .onAppear(perform: fetchGameData)
+        .onReceive(timer) {_ in
+            fetchGameData()
+        }
     }
 }
 

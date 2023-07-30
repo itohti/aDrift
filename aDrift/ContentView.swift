@@ -25,6 +25,7 @@ struct NavigationButton: View{
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
+    @ObservedObject var gameManager = GameManager()
     // when fully testing set playerExists to false and uncomment onAppear() located down at the end of Zstack
     let userDefaults = UserDefaults.standard
     @State private var playerExists = false
@@ -35,13 +36,9 @@ struct ContentView: View {
     @State private var fireDecay = 0.0
     @State private var background = [Color(red: 0.0, green: 0.0, blue: 0.35), Color.blue]
     @State private var foreground = Color.white
-    @State private var logs = [String]()
-    @State private var playerInventory = [String: Int]()
     @State private var resetAlert = false
-    @State private var housing = 0
-    @State private var population = 0
     var totalPopulation: Int {
-        return housing * 4
+        return gameManager.housing * 4
     }
     
     func checkPlayer(){
@@ -57,10 +54,7 @@ struct ContentView: View {
             else{
                 // means the player exists
                 playerExists = true
-                playerInventory = userDefaults.object(forKey: "playerInventory") as? [String: Int] ?? [:]
-                logs = userDefaults.object(forKey: "logs") as? [String] ?? []
-                housing = userDefaults.object(forKey: "housing") as? Int ?? 0
-                population = userDefaults.object(forKey: "population") as? Int ?? 0
+                gameManager.load()
             }
         } catch{
             // something went wrong with fetching GameData
@@ -70,7 +64,7 @@ struct ContentView: View {
     
     func createPlayer(){
         // if the player doesnt exists (meaning its a new game) this function will create a new player
-        logs.append("You need to find warmth")
+        gameManager.addLog(message: "You need to find warmth")
         let newPlayer = Player(context: moc)
         /*
          a player will start with:
@@ -83,17 +77,10 @@ struct ContentView: View {
         newPlayer.food = 0
         // create playerInventory
         
-        playerInventory["knife"] = 1
-        playerInventory["tinderbox"] = 1
-        do{
-            // saves the newPlayer object into GameData
-            try moc.save()
-            userDefaults.set(playerInventory, forKey: "playerInventory")
-            playerExists = true
-        } catch{
-            // error in trying to save
-            print("There was an error in saving data")
-        }
+        gameManager.playerInventory["knife"] = 1
+        gameManager.playerInventory["tinderbox"] = 1
+        gameManager.save()
+        playerExists = true
     }
     
     func lightFire(){
@@ -105,32 +92,29 @@ struct ContentView: View {
             changeTheme()
             fireDecay = 0
             lighting = 0
-            save()
+            gameManager.save()
+            CoreSave()
         }
     }
     
     func changeTheme(){
         // this function changes the theme of the game
         if (isLit){
-            logs.append("The fire is lit")
+            gameManager.addLog(message: "The fire is lit")
             background = [Color.white, Color.orange]
             foreground = Color.black
         }
         else{
-            logs.append("The fire died")
+            gameManager.addLog(message: "The fire died")
             background = [Color(red: 0.0, green: 0.0, blue: 0.35), Color.blue]
             foreground = Color.white
         }
     }
     
-    func save(){
+    func CoreSave(){
         // saves the game
         do{
             try moc.save()
-            userDefaults.set(playerInventory, forKey: "playerInventory")
-            userDefaults.set(logs, forKey: "logs")
-            userDefaults.set(housing, forKey: "housing")
-            userDefaults.set(population, forKey: "population")
         } catch{
             print("There was an error in saving data")
         }
@@ -145,36 +129,11 @@ struct ContentView: View {
             let player = players[0]
             moc.delete(player)
             try moc.save()
-            userDefaults.removeObject(forKey: "playerInventory")
-            userDefaults.removeObject(forKey: "logs")
-            userDefaults.removeObject(forKey: "housing")
-            userDefaults.removeObject(forKey: "population")
-            logs = [String]()
+            gameManager.reset()
             playerExists = false
             isLit = false
         } catch{
             print("Could not delete Player file")
-        }
-    }
-    
-    func fillHouse(){
-        var group = Int.random(in: 1..<4)
-        // Each housing can house 4 people.
-        // first check to see if there is free space. To see get the number of housing multiply it by 4. if current pop is less than that number there is free space.
-        if (population < totalPopulation){
-            let chance = Int.random(in: 0..<10)
-            // 1/5 chance to fill a house with 1-4 people
-            if (chance == 1){
-                if (population + group > totalPopulation){
-                    group = totalPopulation - population
-                    logs.append(group > 1 ? "\(group) survivors move in" : "\(group) person moved in")
-                    population += group
-                }
-                else{
-                    logs.append(group > 1 ? "\(group) survivors move in" : "\(group) person moved in")
-                    population += group
-                }
-            }
         }
     }
     
@@ -190,7 +149,7 @@ struct ContentView: View {
                         if (isLit){
                             Button("stoke fire"){
                                 isLighting.toggle()
-                                logs.append("You stoke the fire")
+                                gameManager.addLog(message: "You stoke the fire")
                             }
                             .onReceive(timer) { _ in
                                 fireDecay += 1
@@ -203,7 +162,7 @@ struct ContentView: View {
                         else{
                             Button("light fire"){
                                 isLighting.toggle()
-                                logs.append("You light the fire")
+                                gameManager.addLog(message: "You light the fire")
                             }
                         }
                         // This is the progressview for lighting a fire
@@ -224,7 +183,7 @@ struct ContentView: View {
                                 })
                             }
                             HStack(spacing: 80){
-                                NavigationLink(destination: Village(), label:{
+                                NavigationLink(destination: Village(gameManager: gameManager), label:{
                                     NavigationButton(imageName: "Village")
                                     
                                 })
@@ -241,17 +200,7 @@ struct ContentView: View {
                         .frame(width: 120, height: 30)
                         .foregroundColor(.black)
                         .border(.black)
-                        ZStack{
-                            List{
-                                ForEach(logs.reversed(), id:\.self) {text in
-                                    Text(text)
-                                }
-                            }
-                            .scrollContentBackground(.hidden)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding()
-                        }
-                        .background(.ultraThinMaterial)
+                        Logs(logs: gameManager.logs)
                     }
                     .navigationTitle(stateOfHome)
                     .navigationBarTitleDisplayMode(.inline)
@@ -265,7 +214,8 @@ struct ContentView: View {
                     }
                 }
                 .onReceive(timer){ _ in
-                    fillHouse()
+                    gameManager.fillHouse()
+                    gameManager.load()
                 }
             }
             else{

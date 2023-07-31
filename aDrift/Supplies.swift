@@ -12,7 +12,7 @@ struct Supplies: View{
     
     var body: some View{
         Form{
-            ForEach(Array(gameManager.playerInventory.keys), id:\.self){ key in
+            ForEach(Array(gameManager.playerInventory.keys).sorted(), id:\.self){ key in
                 Text(key + ": \(gameManager.playerInventory[key] ?? -1)")
             }
         }

@@ -14,9 +14,6 @@ struct Village: View {
     @State private var showHousingAlert = false
     @State private var isChopping = false
     @State private var chopping = 0.0
-    private var totalPopulation : Int{
-        return gameManager.housing * 4
-    }
     
     func chopWood(){
         // adds 10 wood to player inventory
@@ -28,6 +25,7 @@ struct Village: View {
             gameManager.addLog(message: "You chop 10 wood")
         }
     }
+    
     var body: some View {
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         VStack{
@@ -43,7 +41,8 @@ struct Village: View {
             .padding()
             VStack(alignment: .leading){
                 if (gameManager.housing != 0){
-                    Text("Population: \(gameManager.population) / \(totalPopulation)")
+                    Text("Population: \(gameManager.population) / \(gameManager.totalPopulation)")
+                    Text("Avaiable Workers: \(gameManager.availableWorkers)")
                 }
                 Button("Chop Wood"){
                     isChopping = true
@@ -59,7 +58,32 @@ struct Village: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
             Form{
-                Text("")
+                ForEach(Array(gameManager.workers.keys).sorted(), id:\.self) { worker in
+                    HStack{
+                        Text(worker + ": \(gameManager.workers[worker] ?? 0)\nCost: \(gameManager.getCosts(worker: worker))\nGain: \(gameManager.getGains(worker: worker))")
+                        Spacer()
+                        Button(
+                            action: { gameManager.decrementWorker(worker: worker) },
+                            label: {
+                                Image(systemName: "minus.rectangle")
+                                    .resizable()
+                                    .frame(width: 30, height: 25)
+                            }
+                        )
+                        .buttonStyle(BorderlessButtonStyle())
+                        .disabled(gameManager.getWorker(worker: worker) > 0 ? false : true)
+                        Button(
+                            action: { gameManager.incrementWorker(worker: worker)},
+                            label: {
+                                Image(systemName: "plus.rectangle")
+                                    .resizable()
+                                    .frame(width: 30, height: 25)
+                            }
+                        )
+                        .buttonStyle(BorderlessButtonStyle())
+                        .disabled(gameManager.availableWorkers > 0 ? false : true)
+                    }
+                }
             }
             Logs(logs: gameManager.logs)
         }

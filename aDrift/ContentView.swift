@@ -26,6 +26,8 @@ struct NavigationButton: View{
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var gameManager = GameManager()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let tradeTimer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
     // when fully testing set playerExists to false and uncomment onAppear() located down at the end of Zstack
     let userDefaults = UserDefaults.standard
     @State private var playerExists = false
@@ -141,7 +143,6 @@ struct ContentView: View {
         // when doing UI please make sure to structure it clean
         NavigationView{
             if (playerExists){
-                let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
                 ZStack{
                     LinearGradient(colors: background, startPoint: .top, endPoint: .bottom)
                         .ignoresSafeArea()
@@ -216,6 +217,9 @@ struct ContentView: View {
                 .onReceive(timer){ _ in
                     gameManager.fillHouse()
                     gameManager.load()
+                }
+                .onReceive(tradeTimer) { _ in
+                    gameManager.trade()
                 }
             }
             else{

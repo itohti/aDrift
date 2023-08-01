@@ -33,6 +33,10 @@ class GameManager : ObservableObject{
         return population - working
     }
     
+    init(){
+        load()
+    }
+    
     func pow(x : Int, y : Int) -> Int{
         // pow function for me
         var output = x
@@ -45,10 +49,6 @@ class GameManager : ObservableObject{
             i += 1
         }
         return output
-    }
-    
-    init(){
-        load()
     }
     
     // saves the game
@@ -94,9 +94,10 @@ class GameManager : ObservableObject{
     
     // this function gets you huge
     // calculates all the gains from each worker and updates playerInventory
-    // TODO: FIND A BETTER WAY TO NOTIFY THE PLAYER AND MAKE IT LOOK MORE SATISFYING
     func trade(){
         let listOfProfessions = getListOfProfessions()
+        var listOfCosts = [String: Int]()
+        var listOfGains = [String: Int]()
         for worker in Array(workers.keys){
             for profession in listOfProfessions{
                 if (worker == profession.getName()){
@@ -119,13 +120,23 @@ class GameManager : ObservableObject{
                     
                     for cost in Array(costs.keys){
                         playerInventory[cost] = (playerInventory[cost] ?? 0) - (costs[cost] ?? 0) * passed
+                        listOfCosts[cost] = (costs[cost] ?? 0) * passed
                     }
                     for gain in Array(gains.keys){
                         playerInventory[gain] = (playerInventory[gain] ?? 0) + (gains[gain] ?? 0) * passed
-                        addLog(message: "Gained +\((gains[gain] ?? 0) * passed) \(gain)")
+                        listOfGains[gain] = (gains[gain] ?? 0) * passed
                     }
                 }
             }
+        }
+        var gainOutput = "gained: "
+        for (key, value) in listOfGains{
+            if ((value - (listOfCosts[key] ?? 0)) > 0){
+                gainOutput += key + ": \(value - (listOfCosts[key] ?? 0)) "
+            }
+        }
+        if (gainOutput != "gained: "){
+            addLog(message: gainOutput)
         }
     }
     
@@ -137,7 +148,7 @@ class GameManager : ObservableObject{
                 let costs = profession.getCosts()
                 let keys = costs.keys.sorted()
                 for key in keys{
-                    output = output + key + ": \((costs[key] ?? 0) * (workers[worker] ?? 0))"
+                    output = output + key + ": \((costs[key] ?? 0) * (workers[worker] ?? 0)) "
                 }
                 return output
             }
@@ -188,6 +199,8 @@ class GameManager : ObservableObject{
             if (housing == 1){
                 workers["hunter"] = 0
                 workers["woodcutter"] = 0
+                
+                addLog(message: "people will notice the fire. they will come to seek shelter but they need to work for it.")
             }
             save()
         }
@@ -216,6 +229,34 @@ class GameManager : ObservableObject{
                     population += group
                     save()
                 }
+            }
+        }
+    }
+    
+    func getListOfWeapons() -> [Weapon]{
+        return [Weapon(durability: 20, damage: 5, cost: ["wood": 10, "fur": 5], name: "wooden spear"), Weapon(durability: 20, damage: 10, cost: ["wood": 10, "fur": 5], name: "wooden sword")]
+    }
+    
+    func checkCraftItem(item: Equipable, showAlert: inout Bool){
+        let costs = item.getCost()
+        for (key, value) in costs{
+            if ((playerInventory[key] ?? 0) < value){
+                showAlert = true
+                break
+            }
+        }
+    }
+    
+    func craftItem(itemName: String){
+        let items = getListOfWeapons()
+        for item in items{
+            if (itemName == item.getName()){
+                let costs = item.getCost()
+                for (key, value) in costs{
+                    playerInventory[key] = (playerInventory[key] ?? 0) - value
+                }
+                playerInventory[item.getName()] = (playerInventory[item.getName()] ?? 0) + 1
+                addLog(message: "Crafted +1 \(item.getName())")
             }
         }
     }

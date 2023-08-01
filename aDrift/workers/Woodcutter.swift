@@ -13,7 +13,7 @@ class Woodcutter: Worker{
     let name = "woodcutter"
     
     init(){
-        cost = ["fur": 5]
+        cost = ["fur": 5, "meat": 5]
         gain = ["wood": 10]
     }
     

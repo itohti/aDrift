@@ -91,7 +91,7 @@ struct Village: View {
         .alert("Not Enough Resources", isPresented: $showHousingAlert) {
             Button("Dismiss", role: .cancel) { }
         } message: {
-            Text("You currently have: \(gameManager.playerInventory["wood"] ?? 0) wood but it costs \(gameManager.costOfHouse) wood")
+            Text("You currently have \(gameManager.playerInventory["wood"] ?? 0) wood but it costs \(gameManager.costOfHouse) wood")
         }
     }
 }

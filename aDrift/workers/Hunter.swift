@@ -14,7 +14,7 @@ class Hunter: Worker{
     
     init(){
         cost = ["wood" : 5]
-        gain = ["meat" : 10, "fur" : 5]
+        gain = ["meat" : 5, "fur" : 5]
     }
     
     func getGains() -> [String: Int]{

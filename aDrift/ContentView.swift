@@ -39,9 +39,6 @@ struct ContentView: View {
     @State private var background = [Color(red: 0.0, green: 0.0, blue: 0.35), Color.blue]
     @State private var foreground = Color.white
     @State private var resetAlert = false
-    var totalPopulation: Int {
-        return gameManager.housing * 4
-    }
     
     func checkPlayer(){
         // this function checks if a player exists already
@@ -56,7 +53,6 @@ struct ContentView: View {
             else{
                 // means the player exists
                 playerExists = true
-                gameManager.load()
             }
         } catch{
             // something went wrong with fetching GameData
@@ -176,7 +172,7 @@ struct ContentView: View {
                         VStack(spacing: 50){
                             // Navigation buttons
                             HStack(spacing: 80){
-                                NavigationLink(destination: Crafting(), label:{
+                                NavigationLink(destination: Crafting(gameManager: gameManager), label:{
                                     NavigationButton(imageName: "Crafting")
                                 })
                                 NavigationLink(destination: Supplies(gameManager: gameManager), label:{
@@ -216,7 +212,6 @@ struct ContentView: View {
                 }
                 .onReceive(timer){ _ in
                     gameManager.fillHouse()
-                    gameManager.load()
                 }
                 .onReceive(tradeTimer) { _ in
                     gameManager.trade()

@@ -1,0 +1,16 @@
+[
+    {
+        "type" : "Weapon",
+        "name" : "wooden spear",
+        "cost" : {"wood" : 5, "fur" : 5},
+        "durability" : 20,
+        "damage" : 5
+    },
+    {
+        "type" : "Weapon",
+        "name" : "wooden sword",
+        "cost" : {"wood" : 5, "fur" : 5},
+        "durability" : 20,
+        "damage" : 10
+    }
+]

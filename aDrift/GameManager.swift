@@ -15,6 +15,7 @@ class GameManager : ObservableObject{
     @Published var population = 0
     @Published var logs = [String]()
     @Published var workers = [String: Int]()
+    @Published var playerEquip = [Equipable]()
     var isModified = true
     
     
@@ -58,6 +59,7 @@ class GameManager : ObservableObject{
         userDefaults.set(population, forKey: "population")
         userDefaults.set(logs, forKey: "logs")
         userDefaults.set(workers, forKey: "workers")
+        userDefaults.set(playerEquip, forKey: "playerEquip")
         isModified = true
     }
     
@@ -69,6 +71,7 @@ class GameManager : ObservableObject{
             population = userDefaults.object(forKey: "population") as? Int ?? 0
             logs = userDefaults.object(forKey: "logs") as? [String] ?? []
             workers = userDefaults.object(forKey: "workers") as? [String: Int] ?? [:]
+            playerEquip = userDefaults.object(forKey: "playerEquip") as? [Equipable] ?? []
             isModified = false
         }
     }
@@ -80,11 +83,13 @@ class GameManager : ObservableObject{
         userDefaults.removeObject(forKey: "population")
         userDefaults.removeObject(forKey: "logs")
         userDefaults.removeObject(forKey: "workers")
+        userDefaults.removeObject(forKey: "playerEquip")
         playerInventory = [String: Int]()
         housing = 0
         population = 0
         logs = [String]()
         workers = [String: Int]()
+        playerEquip = [Equipable]()
     }
     
     // gets the worker with the key value
@@ -234,7 +239,47 @@ class GameManager : ObservableObject{
     }
     
     func getListOfWeapons() -> [Weapon]{
-        return [Weapon(durability: 20, damage: 5, cost: ["wood": 10, "fur": 5], name: "wooden spear"), Weapon(durability: 20, damage: 10, cost: ["wood": 10, "fur": 5], name: "wooden sword")]
+        var weapons = [Weapon]()
+        do{
+            if let bundlePath = Bundle.main.path(forResource: "items", ofType: "json"){
+                if let itemData = try String(contentsOfFile: bundlePath).data(using: .utf8){
+                    if let json = try JSONSerialization.jsonObject(with: itemData, options: .mutableLeaves) as? [[String: Any]] {
+                        for item in json{
+                            if ((item["type"] as? String) == "Weapon"){
+                                weapons.append(Weapon(durability: item["durability"] as? Int ?? 0, damage: item["damage"] as? Int ?? 0, cost: item["cost"] as? [String:Int] ?? [:], name: item["name"] as? String ?? ""))
+                            }
+                        }
+                    }
+                    else{
+                        print(":(")
+                    }
+                }
+            }
+        } catch{
+            print("Could not read the json file.")
+        }
+        return weapons
+    }
+    
+    func getListOfEquipables() -> [String: Int]{
+        let weapons = getListOfWeapons()
+        var output : [String: Int] = [String: Int]()
+        for (key, value) in playerInventory{
+            for weapon in weapons{
+                if (key == weapon.getName()){
+                    output[key] = value
+                }
+            }
+        }
+        return output
+    }
+    
+    func addEquipable(){
+        // TODO: add the equipable into playerEquip and remove that item from playerInventory
+    }
+    
+    func removeEquipable(){
+        // TODO: remove the equipable from playerEquip and add that item into playerInventory
     }
     
     func checkCraftItem(item: Equipable, showAlert: inout Bool){

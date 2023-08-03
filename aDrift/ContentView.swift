@@ -9,15 +9,18 @@ import SwiftUI
 
 struct NavigationButton: View{
     var imageName : String
+    var width : CGFloat = 80
+    var height : CGFloat = 80
+    var label : String = ""
     
     var body: some View{
         VStack{
             Image(imageName)
                 .resizable()
                 .frame(width: 40, height: 40)
-            Text(imageName)
+            Text(label)
         }
-        .frame(width: 80, height: 80)
+        .frame(width: width, height: height)
         .padding()
         .border(.black)
     }
@@ -169,26 +172,29 @@ struct ContentView: View {
                                     lightFire()
                                 }
                         }
-                        VStack(spacing: 50){
+                        VStack(spacing: 20){
                             // Navigation buttons
                             HStack(spacing: 80){
                                 NavigationLink(destination: Crafting(gameManager: gameManager), label:{
-                                    NavigationButton(imageName: "Crafting")
+                                    NavigationButton(imageName: "Crafting", label: "Crafting")
                                 })
                                 NavigationLink(destination: Supplies(gameManager: gameManager), label:{
-                                    NavigationButton(imageName: "Inventory")
+                                    NavigationButton(imageName: "Inventory", label: "Inventory")
                                 })
                             }
                             HStack(spacing: 80){
                                 NavigationLink(destination: Village(gameManager: gameManager), label:{
-                                    NavigationButton(imageName: "Village")
+                                    NavigationButton(imageName: "Village", label: "Village")
                                     
                                 })
                                 NavigationLink(destination: Stats(context: moc), label:{
-                                    NavigationButton(imageName: "Stats")
+                                    NavigationButton(imageName: "Stats", label: "Stats")
                                     
                                 })
                             }
+                            NavigationLink(destination: Prepare(gameManager: gameManager), label: {
+                                NavigationButton(imageName: "Travel", width: 270, label: "Travel")
+                            })
                         }
                         .padding()
                         Button("Reset Game"){

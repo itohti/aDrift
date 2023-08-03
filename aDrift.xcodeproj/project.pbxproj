@@ -23,10 +23,13 @@
 		F0CA10932A7832C1007BA884 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CA10922A7832C1007BA884 /* Worker.swift */; };
 		F0CA10982A79772E007BA884 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CA10972A79772E007BA884 /* Weapon.swift */; };
 		F0CA109A2A798F39007BA884 /* Equipable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CA10992A798F39007BA884 /* Equipable.swift */; };
+		F0CA109C2A7B1301007BA884 /* items.json in Resources */ = {isa = PBXBuildFile; fileRef = F0CA109B2A7B1301007BA884 /* items.json */; };
+		F0CA109E2A7C1052007BA884 /* Prepare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CA109D2A7C1052007BA884 /* Prepare.swift */; };
 		F0E3118E2A741F5B00064F4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E3118D2A741F5B00064F4C /* Preview Assets.xcassets */; };
 		F0E311982A741F5B00064F4C /* aDriftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311972A741F5B00064F4C /* aDriftTests.swift */; };
 		F0E311A22A741F5B00064F4C /* aDriftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311A12A741F5B00064F4C /* aDriftUITests.swift */; };
 		F0E311A42A741F5B00064F4C /* aDriftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E311A32A741F5B00064F4C /* aDriftUITestsLaunchTests.swift */; };
+		F0FFA3EC2A7C16F500F099EA /* Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFA3EB2A7C16F500F099EA /* Travel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,8 @@
 		F0CA10922A7832C1007BA884 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
 		F0CA10972A79772E007BA884 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		F0CA10992A798F39007BA884 /* Equipable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equipable.swift; sourceTree = "<group>"; };
+		F0CA109B2A7B1301007BA884 /* items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = items.json; sourceTree = "<group>"; };
+		F0CA109D2A7C1052007BA884 /* Prepare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prepare.swift; sourceTree = "<group>"; };
 		F0E311832A741F5A00064F4C /* aDrift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aDrift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E3118D2A741F5B00064F4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F0E311932A741F5B00064F4C /* aDriftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = aDriftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +75,7 @@
 		F0E3119D2A741F5B00064F4C /* aDriftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = aDriftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E311A12A741F5B00064F4C /* aDriftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aDriftUITests.swift; sourceTree = "<group>"; };
 		F0E311A32A741F5B00064F4C /* aDriftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aDriftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F0FFA3EB2A7C16F500F099EA /* Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				F0CA10972A79772E007BA884 /* Weapon.swift */,
+				F0CA109B2A7B1301007BA884 /* items.json */,
 				F0CA10992A798F39007BA884 /* Equipable.swift */,
 			);
 			path = items;
@@ -142,6 +149,8 @@
 				F03174902A74200700E87F49 /* Assets.xcassets */,
 				F03174A32A745E7600E87F49 /* GameData.xcdatamodeld */,
 				F031748F2A74200700E87F49 /* ContentView.swift */,
+				F0CA109D2A7C1052007BA884 /* Prepare.swift */,
+				F0FFA3EB2A7C16F500F099EA /* Travel.swift */,
 				F03174A12A7440B900E87F49 /* Stats.swift */,
 				F031748E2A74200700E87F49 /* Crafting.swift */,
 				F03174942A74200700E87F49 /* DataController.swift */,
@@ -289,6 +298,7 @@
 			files = (
 				F03174992A74200700E87F49 /* Assets.xcassets in Resources */,
 				F0E3118E2A741F5B00064F4C /* Preview Assets.xcassets in Resources */,
+				F0CA109C2A7B1301007BA884 /* items.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +328,7 @@
 				F0CA10892A7820BB007BA884 /* Hunter.swift in Sources */,
 				F09B30012A76FAE40072DD77 /* GameManager.swift in Sources */,
 				F03174A52A745E7600E87F49 /* GameData.xcdatamodeld in Sources */,
+				F0CA109E2A7C1052007BA884 /* Prepare.swift in Sources */,
 				F0CA10982A79772E007BA884 /* Weapon.swift in Sources */,
 				F0CA109A2A798F39007BA884 /* Equipable.swift in Sources */,
 				F031748D2A741FF000E87F49 /* Village.swift in Sources */,
@@ -327,6 +338,7 @@
 				F03174A22A7440B900E87F49 /* Stats.swift in Sources */,
 				F0CA10912A78284D007BA884 /* Woodcutter.swift in Sources */,
 				F03174972A74200700E87F49 /* Crafting.swift in Sources */,
+				F0FFA3EC2A7C16F500F099EA /* Travel.swift in Sources */,
 				F03174982A74200700E87F49 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
